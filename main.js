@@ -2,9 +2,6 @@ const apikey = '4242117a719af85dc6294dba6348594e';
 let city = 'London';
 const unit = 'metric';
 const linkStatic = 'http://api.openweathermap.org/data/2.5/weather?';
-const cityParam = `q=${city}`;
-const unitParam = `&units=${unit}`;
-const keyParam = `&appid=${apikey}`;
 
 const searchBar = document.querySelector('.search-bar');
 const searchButton = document.querySelector('.search-bar-button');
@@ -22,7 +19,6 @@ function getFetchLink() {
 
 async function getWeather() {
   const weather = await fetch(getFetchLink(), { mode: 'cors' });
-  console.log(typeof weather);
   try {
     const data = await weather.json();
     if (document.querySelector('.hide') === weatherDisplay) {
@@ -35,7 +31,6 @@ async function getWeather() {
     description.textContent = data.weather[0].description;
     icon.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
   } catch (error) {
-    console.log(error);
     errorMessage.textContent = 'Oops. Something went wrong. Check your spelling and try again.';
   }
 }
