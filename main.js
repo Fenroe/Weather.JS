@@ -19,8 +19,12 @@ function getFetchLink() {
 
 async function getWeather() {
   const weather = await fetch(getFetchLink(), { mode: 'cors' });
-  try {
-    const data = await weather.json();
+  const data = await weather.json();
+  return data;
+}
+
+function fillPage() {
+  getWeather().then((data) => {
     if (document.querySelector('.hide') === weatherDisplay) {
       weatherDisplay.classList.remove('hide');
     }
@@ -30,15 +34,16 @@ async function getWeather() {
     temperature.textContent = temp;
     description.textContent = data.weather[0].description;
     icon.src = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
-  } catch (error) {
+  }).catch((error) => {
     errorMessage.textContent = 'Oops. Something went wrong. Check your spelling and try again.';
-  }
+    console.log(error);
+  });
 }
 
 function initSearchButton() {
   searchButton.addEventListener('click', () => {
     city = searchBar.value;
-    getWeather();
+    fillPage();
   });
 }
 
